@@ -41,7 +41,11 @@
   become: yes
   tasks:
     - name: Cambiar el nombre de index.html a index.html.txt
-      command: rm -r /var/www/html
+      command: mkdir /home/userubuntu/Desktop/htmlbackup
+      become_user: root
+    
+    - name: Cambiar el nombre de index.html a index.html.txt
+      command: mv /var/www/html /home/userubuntu/Desktop/htmlbackup
       become_user: root
     
     - name: Mover contenido de /tmp/php a /var/www/html
