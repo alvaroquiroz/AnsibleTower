@@ -23,7 +23,7 @@
       become_user: root
 
 - name: Clonar el repositorio de GitHub de Apache Wicket
-  hosts: your_server
+  hosts: all
   become: yes
 
   tasks:
@@ -36,7 +36,7 @@
       poll: 0
 
 - name: Esperar a que termine la clonación del repositorio
-  hosts: your_server
+  hosts: all
   async_status:
     jid: "{{ ansible_job_id }}"
   register: job_result
