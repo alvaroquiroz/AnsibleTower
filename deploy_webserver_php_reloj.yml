@@ -27,7 +27,7 @@
   become: yes
   tasks:
     - name: Cambiar el nombre de index.html a index.html.txt
-      command: mv /var/www/html/index.html* /var/www/html/index.html.txt
+      command: mv /var/www/html/index.html /var/www/html/index.html.txt
       become_user: root
 
     - name: Clonar el repositorio de GitHub de Apache Wicket
