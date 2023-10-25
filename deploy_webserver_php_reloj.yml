@@ -22,42 +22,26 @@
         state: present
       become_user: root
 
-- name: Clonar el repositorio de GitHub de Apache Wicket
+- name: Clonar el repositorio
   hosts: all
   become: yes
-
   tasks:
-    - name: Clonar el repositorio de GitHub
+    - name: Cambiar el nombre de index.html a index.html.txt
+      command: mv /var/www/html/index.html /var/www/html/index.html.txt
+      become_user: root
+
+    - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
         dest: /tmp/php
-      become_user: root
-      async: 600  # Aumenta el tiempo de espera si es necesario (10 minutos)
+      async: 3000
       poll: 0
-
-- name: Esperar a que termine la clonación del repositorio
-  hosts: all
-  async_status:
-    jid: "{{ ansible_job_id }}"
-  register: job_result
-  until: job_result.finished
-  retries: 30  # Ajusta según el tiempo de espera necesario
-  delay: 10  # Intervalo de comprobación
-  become_user: root
-
-- name: Mover contenido de /tmp/php a /var/www/html
-  hosts: your_server
-  become: yes
-
-  tasks:
+      become_user: root
+    
     - name: Mover contenido de /tmp/php a /var/www/html
       command: mv /tmp/php/* /var/www/html/
       async: 0
       poll: 0
-      become_user: root
-
-    - name: Cambiar el nombre de index.html a index.html.txt
-      command: mv /var/www/html/index.html /var/www/html/index.html.txt
       become_user: root
 
 - name: Reiniciar Apache
