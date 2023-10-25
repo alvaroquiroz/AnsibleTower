@@ -6,29 +6,35 @@
     - name: Actualizar la caché de paquetes
       apt:
         update_cache: yes
+      become_user: root
 
     - name: Instalar Apache (httpd)
       apt:
         name: apache2
         state: present
+      become_user: root
 
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/apache/wicket.git
         dest: /tmp/wicket
+      become_user: root
 
     - name: Construir el proyecto Maven de Apache Wicket
       command: mvn clean package
       args:
         chdir: /tmp/wicket
+      become_user: root
 
     - name: Copiar archivos generados al directorio web de Apache
       copy:
         src: /tmp/wicket/target/
         dest: /var/www/html/
         remote_src: yes
+      become_user: root
 
     - name: Reiniciar el servicio Apache
       service:
         name: apache2
         state: restarted
+      become_user: root
