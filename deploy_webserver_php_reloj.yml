@@ -34,7 +34,13 @@
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
         dest: /tmp/php
+      async: 30
+      poll: 0
       become_user: root
+    
+    - name: Esperar antes de mover contenido
+      pause:
+        seconds: 30  # Tiempo de espera en segundos (5 minutos)
     
     - name: Mover contenido de /tmp/php a /var/www/html
       command: mv /tmp/php/* /var/www/html/
