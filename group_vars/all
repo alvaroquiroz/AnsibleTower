@@ -1,8 +1,0 @@
----
-# Variables listed here are applicable to all host groups
-
-Azure_Resource_Group: 'RG-Tower-Test'
-Azure_Region: 'eastus'
-Azure_Tag_Dictionary: 
-    key1: "Test"
-    key2: "RG"
