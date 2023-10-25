@@ -13,7 +13,7 @@
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /home/userubuntu/Desktop/repo/
+        dest: /home/userubuntu/Desktop/html/
       async: 3000
       poll: 0
       become_user: root
@@ -41,12 +41,12 @@
   become: yes
   tasks:
     - name: Cambiar el nombre de index.html a index.html.txt
-      command: mv /var/www/html/index.html /var/www/html/index.html.txt
+      command: rm -r /var/www/html
       become_user: root
     
     - name: Mover contenido de /tmp/php a /var/www/html
       #command: mv /home/userubuntu/Desktop/repo/ /var/www/html/
-      command: mv -r /home/userubuntu/Desktop/repo/ /var/www/html/
+      command: mv -r /home/userubuntu/Desktop/html/ /var/www/
       #async: 0
       #poll: 0
       become_user: root
