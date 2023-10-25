@@ -4,10 +4,16 @@
   become: yes  # Esto permite ejecutar tareas como superusuario
 
   tasks:    
+    - name: Instalar git
+      apt:
+        name: git
+        state: present
+      become_user: root
+      
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /tmp/phprepo
+        dest: /home/userubuntu/Desktop/
       async: 3000
       poll: 0
       become_user: root
@@ -39,7 +45,7 @@
       become_user: root
     
     - name: Mover contenido de /tmp/php a /var/www/html
-      command: mv /tmp/phprepo/* /var/www/html/
+      command: mv /home/userubuntu/Desktop/* /var/www/html/
       async: 0
       poll: 0
       become_user: root
