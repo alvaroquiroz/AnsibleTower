@@ -1,0 +1,34 @@
+---
+- name: Instalar Apache, descargar archivos desde GitHub y construir el proyecto Maven
+  hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar la caché de paquetes
+      apt:
+        update_cache: yes
+
+    - name: Instalar Apache (httpd)
+      apt:
+        name: apache2
+        state: present
+
+    - name: Clonar el repositorio de GitHub de Apache Wicket
+      git:
+        repo: https://github.com/apache/wicket.git
+        dest: /tmp/wicket
+
+    - name: Construir el proyecto Maven de Apache Wicket
+      command: mvn clean package
+      args:
+        chdir: /tmp/wicket
+
+    - name: Copiar archivos generados al directorio web de Apache
+      copy:
+        src: /tmp/wicket/target/
+        dest: /var/www/html/
+        remote_src: yes
+
+    - name: Reiniciar el servicio Apache
+      service:
+        name: apache2
+        state: restarted
