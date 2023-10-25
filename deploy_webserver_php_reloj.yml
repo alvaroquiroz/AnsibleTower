@@ -39,6 +39,7 @@
         path: /var/www/html/index.html
         state: absent
       ignore_errors: yes  # Ignora errores si el archivo no existe
+      become_user: root
 
 - name: Reiniciar Apache
   hosts: all
