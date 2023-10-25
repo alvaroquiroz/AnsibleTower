@@ -26,8 +26,15 @@
   hosts: all
   become: yes
   tasks:
+    - name: Verificar si index.html existe
+      stat:
+        path: /var/www/html/index.html
+      register: index_html
+      become_user: roots
+
     - name: Cambiar el nombre de index.html a index.html.txt
       command: mv /var/www/html/index.html /var/www/html/index.html.txt
+      when: index_html.stat.exists
       become_user: root
 
     - name: Clonar el repositorio de GitHub de Apache Wicket
