@@ -6,13 +6,16 @@
     - name: Actualizar la caché de paquetes
       apt:
         update_cache: yes
+      become_user: userubuntu
 
     - name: Instalar Apache (httpd)
       apt:
         name: apache2
         state: present
+      become_user: userubuntu
 
     - name: Reiniciar el servicio Apache
       service:
         name: apache2
         state: restarted
+      become_user: userubuntu
