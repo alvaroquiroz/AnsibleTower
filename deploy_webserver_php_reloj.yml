@@ -25,14 +25,13 @@
 - name: Clonar el repositorio
   hosts: all
   become: yes
-
-  - name: Clonar el repositorio de GitHub de Apache Wicket
+  tasks:
+    - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
         dest: /tmp/wicket
       become_user: root
 
-  tasks:
     - name: Cambiar el nombre de index.html a index.html.txt
       command: mv /var/www/html/index.html /var/www/html/index.html.txt
       become_user: root
