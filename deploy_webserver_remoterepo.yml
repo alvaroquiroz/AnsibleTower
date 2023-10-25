@@ -8,6 +8,11 @@
         name: apache2
         state: present
       become_user: root
+    
+    - name: Instalar git
+      apt:
+        name: git
+        state: present
 
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
