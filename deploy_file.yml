@@ -1,0 +1,10 @@
+---
+- name: Crear archivo "test_tower"
+  hosts: all  # O el grupo de hosts necesario
+  become: yes
+  tasks:
+    - name: Crear el archivo "test_tower"
+      ansible.builtin.file:
+        path: /home/userubuntu/Desktop/test_tower
+        state: touch
+      become_user: userubuntu
