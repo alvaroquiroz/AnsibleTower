@@ -33,7 +33,13 @@
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /var/www/html
+        dest: /tmp/php
+      become_user: root
+    
+    - name: Mover contenido de /tmp/php a /var/www/html
+      command: mv /tmp/php/* /var/www/html/
+      async: 0
+      poll: 0
       become_user: root
 
 - name: Reiniciar Apache
