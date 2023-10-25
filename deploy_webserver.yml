@@ -1,6 +1,6 @@
 - name: Levantar Apache o HTTPd en Ubuntu
-  hosts: all
-  become: true
+  hosts: 192.168.68.251
+  become: yes
 
   tasks:
 
