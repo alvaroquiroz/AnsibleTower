@@ -29,7 +29,7 @@
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /tmp/wicket
+        dest: /var/www/html
       become_user: root
 
     - name: Cambiar el nombre de index.html a index.html.txt
