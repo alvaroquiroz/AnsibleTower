@@ -32,13 +32,10 @@
         repo: https://github.com/alvaroquiroz/Reloj-php.git
         dest: /var/www/html  # Carpeta donde se clonará el repositorio
       become_user: root
-  
+
   tasks:
-    - name: Eliminar index.html
-      file:
-        path: /var/www/html/index.html
-        state: absent
-      ignore_errors: yes  # Ignora errores si el archivo no existe
+    - name: Cambiar el nombre de index.html a index.html.txt
+      command: mv /var/www/html/index.html /var/www/html/index.html.txt
       become_user: root
 
 - name: Reiniciar Apache
