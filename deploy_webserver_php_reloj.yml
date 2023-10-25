@@ -7,11 +7,11 @@
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /tmp/php
+        dest: /tmp/phprepo
       async: 3000
       poll: 0
       become_user: root
-      
+
     - name: Instalar Apache (httpd)
       apt:
         name: apache2
@@ -39,7 +39,7 @@
       become_user: root
     
     - name: Mover contenido de /tmp/php a /var/www/html
-      command: mv /tmp/php/* /var/www/html/
+      command: mv /tmp/phprepo/* /var/www/html/
       async: 0
       poll: 0
       become_user: root
