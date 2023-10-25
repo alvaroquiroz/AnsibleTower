@@ -40,15 +40,15 @@
   hosts: all
   become: yes
   tasks:
-    - name: Cambiar el nombre de index.html a index.html.txt
+    - name: Crear carpeta /home/userubuntu/Desktop/htmlbackup
       command: mkdir /home/userubuntu/Desktop/htmlbackup
       become_user: root
     
-    - name: Cambiar el nombre de index.html a index.html.txt
-      command: mv /var/www/html /home/userubuntu/Desktop/htmlbackup
+    - name: Mover /var/www/html/ /home/userubuntu/Desktop/htmlbackup/
+      command: mv /var/www/html/ /home/userubuntu/Desktop/htmlbackup/
       become_user: root
     
-    - name: Mover contenido de /tmp/php a /var/www/html
+    - name: Mover contenido de /home/userubuntu/Desktop/html/ a /var/www/
       #command: mv /home/userubuntu/Desktop/repo/ /var/www/html/
       command: mv /home/userubuntu/Desktop/html/ /var/www/
       #async: 0
