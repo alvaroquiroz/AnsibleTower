@@ -1,0 +1,41 @@
+---
+- name: Instalar Apache2 y PHP
+  hosts: your_server
+  become: yes  # Esto permite ejecutar tareas como superusuario
+
+  tasks:
+    - name: Actualizar paquetes
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"  # Verifica si el sistema es una distribución Debian/Ubuntu
+
+    - name: Instalar Apache2 y PHP
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apache2
+        - php
+      when: ansible_os_family == "Debian"
+
+- name: Clonar el repositorio
+  hosts: your_server
+  become: yes
+
+  tasks:
+    - name: Clonar el repositorio de GitHub
+      git:
+        repo: https://github.com/alvaroquiroz/Reloj-php.git
+        dest: /var/www/html/reloj-tower  # Carpeta donde se clonará el repositorio
+      notify:
+        - Reiniciar Apache
+
+- name: Reiniciar Apache
+  hosts: your_server
+  become: yes
+
+  tasks:
+    - name: Reiniciar Apache2
+      service:
+        name: apache2
+        state: restarted
