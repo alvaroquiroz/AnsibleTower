@@ -31,8 +31,6 @@
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
         dest: /var/www/html/reloj-tower  # Carpeta donde se clonará el repositorio
-      notify:
-        - Reiniciar Apache
       become_user: root
 
 - name: Reiniciar Apache
@@ -45,10 +43,3 @@
         name: apache2
         state: restarted
       become_user: root
-
-handlers:
-  - name: Reiniciar Apache
-    service:
-      name: apache2
-      state: restarted
-    become_user: root
