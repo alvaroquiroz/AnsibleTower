@@ -30,8 +30,15 @@
     - name: Clonar el repositorio de GitHub
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /var/www/html/reloj-tower  # Carpeta donde se clonará el repositorio
+        dest: /var/www/html  # Carpeta donde se clonará el repositorio
       become_user: root
+  
+  tasks:
+    - name: Eliminar index.html
+      file:
+        path: /var/www/html/index.html
+        state: absent
+      ignore_errors: yes  # Ignora errores si el archivo no existe
 
 - name: Reiniciar Apache
   hosts: all
