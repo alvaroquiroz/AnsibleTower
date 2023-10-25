@@ -1,6 +1,6 @@
 ---
-- name: Desplegar Apache en todos los servidores
-  hosts: all
+- name: Instalar Apache (httpd) y obtener la URL
+  hosts: all  # O el grupo de hosts necesario
   become: yes
   tasks:
     - name: Actualizar la caché de paquetes
@@ -12,8 +12,7 @@
         name: apache2
         state: present
 
-    - name: Iniciar el servicio Apache
+    - name: Reiniciar el servicio Apache
       service:
         name: apache2
-        state: started
-        enabled: yes
+        state: restarted
