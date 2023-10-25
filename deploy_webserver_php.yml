@@ -3,11 +3,6 @@
   hosts: all
   become: yes
   tasks:
-    - name: Actualizar la caché de paquetes
-      apt:
-        update_cache: yes
-      become_user: root
-
     - name: Instalar Git
       apt:
         name: git
