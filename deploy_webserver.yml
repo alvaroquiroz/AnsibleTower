@@ -1,34 +1,19 @@
-- name: Levantar Apache o HTTPd en Ubuntu
-  hosts: 192.168.68.251
+---
+- name: Desplegar Apache en todos los servidores
+  hosts: all
   become: yes
-
   tasks:
+    - name: Actualizar la caché de paquetes
+      apt:
+        update_cache: yes
 
-  - name: Instalar Apache o HTTPd
-    apt:
-      name:
-        - apache2
-        - httpd
-      state: present
+    - name: Instalar Apache (httpd)
+      apt:
+        name: apache2
+        state: present
 
-  - name: Habilitar el servicio Apache o HTTPd
-    service:
-      name: apache2
-      state: started
-      enabled: yes
-
-  - name: Crear un VirtualHost para el sitio web
-    lineinfile:
-      path: /etc/apache2/sites-available/default
-      line: "ServerName {{ inventory_hostname }}"
-
-  - name: Habilitar el VirtualHost
-    file:
-      src: /etc/apache2/sites-available/default
-      dest: /etc/apache2/sites-enabled/default
-      state: link
-
-  - name: Reiniciar el servicio Apache o HTTPd
-    service:
-      name: apache2
-      state: restarted
+    - name: Iniciar el servicio Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
