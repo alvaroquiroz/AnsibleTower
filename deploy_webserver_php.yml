@@ -1,0 +1,58 @@
+---
+- name: Descargar archivos desde GitHub, instalar PHP, Composer, Git y Apache
+  hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar la caché de paquetes
+      apt:
+        update_cache: yes
+      become_user: root
+
+    - name: Instalar Git
+      apt:
+        name: git
+        state: present
+      become_user: root
+
+    - name: Instalar PHP
+      apt:
+        name: php
+        state: present
+      become_user: root
+
+    - name: Instalar Composer
+      shell: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+      args:
+        creates: /usr/local/bin/composer
+      become_user: root
+
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+      become_user: root
+
+    - name: Clonar el repositorio desde GitHub en /tmp/PhpProject
+      git:
+        repo: https://github.com/NinoSkopac/PhpTikaWrapper.git
+        dest: /tmp/PhpProject
+      become_user: root
+
+    - name: Instalar dependencias con Composer
+      shell: composer install
+      args:
+        chdir: /tmp/PhpProject
+      become_user: root
+
+    - name: Copiar archivos al directorio web de Apache
+      copy:
+        src: /tmp/PhpProject
+        dest: /var/www/html/
+        remote_src: yes
+      become_user: root
+
+    - name: Reiniciar el servicio Apache
+      service:
+        name: apache2
+        state: restarted
+      become_user: root
