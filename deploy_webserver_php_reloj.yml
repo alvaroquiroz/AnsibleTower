@@ -26,11 +26,10 @@
   hosts: all
   become: yes
 
-  tasks:
-    - name: Clonar el repositorio de GitHub
+  - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/alvaroquiroz/Reloj-php.git
-        dest: /var/www/html  # Carpeta donde se clonará el repositorio
+        dest: /tmp/wicket
       become_user: root
 
   tasks:
