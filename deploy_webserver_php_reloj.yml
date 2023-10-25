@@ -1,6 +1,6 @@
 ---
 - name: Instalar Apache2 y PHP
-  hosts: your_server
+  hosts: all
   become: yes  # Esto permite ejecutar tareas como superusuario
 
   tasks:
