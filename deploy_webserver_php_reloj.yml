@@ -45,7 +45,8 @@
       become_user: root
     
     - name: Mover contenido de /tmp/php a /var/www/html
-      command: mv /home/userubuntu/Desktop/repo/ /var/www/html/
+      #command: mv /home/userubuntu/Desktop/repo/ /var/www/html/
+      command:mv -r /home/userubuntu/Desktop/repo/* /var/www/html/
       async: 0
       poll: 0
       become_user: root
