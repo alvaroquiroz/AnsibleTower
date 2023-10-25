@@ -13,6 +13,7 @@
       apt:
         name: git
         state: present
+      become_user: root
 
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
