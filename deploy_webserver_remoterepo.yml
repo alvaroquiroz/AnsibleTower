@@ -15,6 +15,12 @@
         state: present
       become_user: root
 
+    - name: Instalar Maven
+      apt:
+        name: maven
+        state: present
+      become_user: root
+
     - name: Clonar el repositorio de GitHub de Apache Wicket
       git:
         repo: https://github.com/apache/wicket.git
