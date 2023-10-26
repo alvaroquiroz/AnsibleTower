@@ -3,11 +3,23 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Descargar el cliente oc desde la fuente oficial
+    - name: Descargar oc
       get_url:
         url: https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
         dest: /tmp/oc.tar.gz
-      when: not ("oc" in ansible_play_hosts_all)
+        become_user: root
+
+    - name: Descomprimir oc
+      unarchive:
+        src: /tmp/oc.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+      become: yes
+      become_user: root
+
+    - name: Verificar la instalación de oc
+      command: oc version
+      ignore_errors: yes
       become_user: root
     
     - name: Actualizar el archivo de hosts
