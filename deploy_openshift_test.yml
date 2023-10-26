@@ -7,7 +7,7 @@
       get_url:
         url: https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
         dest: /tmp/oc.tar.gz
-        become_user: root
+      become_user: root
 
     - name: Descomprimir oc
       unarchive:
