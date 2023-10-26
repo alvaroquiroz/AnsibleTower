@@ -44,7 +44,7 @@
       become_user: root
 
     - name: Crear o seleccionar el proyecto (namespace)
-      command: oc new-project Project_test_ansible
+      command: oc new-project project-test-ansible
       when: "oc_login.rc == 0"
       environment:
         KUBECONFIG: /path/to/your/kubeconfig/file
