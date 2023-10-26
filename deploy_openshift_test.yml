@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Instalar el cliente oc
-      command: yum install -y origin-clients
+      command: apt install -y origin-clients
       become: yes
       become_user: root
 
