@@ -9,6 +9,19 @@
         dest: /tmp/oc.tar.gz
       when: not ("oc" in ansible_play_hosts_all)
       become_user: root
+    
+    - name: Actualizar el archivo de hosts
+      lineinfile:
+        path: /etc/hosts  # Ruta al archivo de hosts en tu sistema
+        line: "{{ item.ip }} {{ item.host }}"
+        state: present
+      with_items:
+        - { ip: '52.177.22.54', host: 'console-openshift-console.apps.stracongroupdemo.local' }
+        - { ip: '52.177.22.54', host: 'oauth-openshift.apps.stracongroupdemo.local' }
+        - { ip: '52.177.22.54', host: 'alertmanager-main-openshift-monitoring.apps.stracongroupdemo.local' }
+        - { ip: '52.177.22.54', host: 'boutique-route-boutique.apps.stracongroupdemo.local' }
+        - { ip: '40.70.30.118', host: 'api.stracongroupdemo.local' }
+
 
     - name: Extraer el cliente oc
       ansible.builtin.unarchive:
