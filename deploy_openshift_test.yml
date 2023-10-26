@@ -1,0 +1,76 @@
+---
+- name: Desplegar una aplicación en OpenShift
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Autenticarse en el clúster de OpenShift
+      k8s_auth:
+        host: https://api.stracongroupdemo.local:6443/
+        username: kubeadmin
+        password: vqit5-uVq55-KM5XD-qs7hJ
+        validate_certs: no
+      register: oc_auth
+
+    - name: Crear o seleccionar el proyecto (namespace)
+      k8s:
+        state: present
+        definition:
+          apiVersion: project.openshift.io/v1
+          kind: Project
+          metadata:
+            name: boutique
+        host: https://api.stracongroupdemo.local:6443/
+        username: "{{ oc_auth.username }}"
+        password: "{{ oc_auth.password }}"
+        validate_certs: no
+      when: oc_auth.changed
+
+    - name: Desplegar una aplicación
+      k8s:
+        state: present
+        definition: |
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: mi-aplicacion
+            namespace: boutique
+          spec:
+            replicas: 2
+            selector:
+              matchLabels:
+                app: mi-aplicacion
+            template:
+              metadata:
+                labels:
+                  app: mi-aplicacion
+              spec:
+                containers:
+                  - name: mi-contenedor
+                    image: nginx:latest  # Cambia 'nginx' por la imagen que desees de Docker Hub
+                    ports:
+                      - containerPort: 80
+        host: https://api.stracongroupdemo.local:6443/
+        username: "{{ oc_auth.username }}"
+        password: "{{ oc_auth.password }}"
+        validate_certs: no
+
+    - name: Exponer la aplicación
+      k8s:
+        state: present
+        definition: |
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: mi-aplicacion-svc
+            namespace: boutique
+          spec:
+            selector:
+              app: mi-aplicacion
+            ports:
+              - name: http
+                port: 80
+                targetPort: 80
+        host: https://api.stracongroupdemo.local:6443/
+        username: "{{ oc_auth.username }}"
+        password: "{{ oc_auth.password }}"
+        validate_certs: no
