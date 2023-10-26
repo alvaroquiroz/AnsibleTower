@@ -1,30 +1,37 @@
 ---
 - name: Desplegar una aplicación en OpenShift
-  hosts: all
+  hosts: localhost
   gather_facts: no
   tasks:
-    - name: Instalar el cliente oc
-      command: apt install -y origin-clients
+    - name: Descargar el cliente oc desde la fuente oficial
+      get_url:
+        url: https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
+        dest: /tmp/oc.tar.gz
+      when: not ("oc" in ansible_play_hosts_all)
+      become_user: root
+
+    - name: Extraer el cliente oc
+      ansible.builtin.unarchive:
+        src: /tmp/oc.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+        creates: /usr/local/bin/oc
       become: yes
+      become_user: root
+      when: not ("oc" in ansible_play_hosts_all)
       become_user: root
 
     - name: Autenticarse en el clúster de OpenShift
       command: oc login -u kubeadmin -p vqit5-uVq55-KM5XD-qs7hJ https://api.stracongroupdemo.local:6443 --insecure-skip-tls-verify
       ignore_errors: yes
       register: oc_login
+      environment:
+        KUBECONFIG: /path/to/your/kubeconfig/file
       become_user: root
 
     - name: Crear o seleccionar el proyecto (namespace)
       command: oc new-project Project_test_ansible
       when: "oc_login.rc == 0"
-      become_user: root
-
-    - name: Desplegar una aplicación
-      command: oc run app_from_ansible --image=nginx --port=80 -n Project_test_ansible
-      when: "oc_login.rc == 0"
-      become_user: root
-
-    - name: Exponer la aplicación
-      command: oc expose svc/app_from_ansible -n Project_test_ansible
-      when: "oc_login.rc == 0"
+      environment:
+        KUBECONFIG: /path/to/your/kubeconfig/file
       become_user: root
