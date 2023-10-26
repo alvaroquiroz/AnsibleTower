@@ -1,6 +1,6 @@
 ---
 - name: Desplegar una aplicación en OpenShift
-  hosts: localhost
+  hosts: all
   gather_facts: no
   tasks:
     - name: Descargar el cliente oc desde la fuente oficial
