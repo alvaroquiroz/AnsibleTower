@@ -3,19 +3,28 @@
   hosts: all
   gather_facts: no
   tasks:
+    - name: Instalar el cliente oc
+      command: yum install -y origin-clients
+      become: yes
+      become_user: root
+
     - name: Autenticarse en el clúster de OpenShift
       command: oc login -u kubeadmin -p vqit5-uVq55-KM5XD-qs7hJ https://api.stracongroupdemo.local:6443 --insecure-skip-tls-verify
       ignore_errors: yes
       register: oc_login
+      become_user: root
 
     - name: Crear o seleccionar el proyecto (namespace)
       command: oc new-project Project_test_ansible
       when: "oc_login.rc == 0"
+      become_user: root
 
     - name: Desplegar una aplicación
       command: oc run app_from_ansible --image=nginx --port=80 -n Project_test_ansible
       when: "oc_login.rc == 0"
+      become_user: root
 
     - name: Exponer la aplicación
       command: oc expose svc/app_from_ansible -n Project_test_ansible
       when: "oc_login.rc == 0"
+      become_user: root
