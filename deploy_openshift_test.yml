@@ -1,6 +1,6 @@
 ---
 - name: Desplegar una aplicación en OpenShift
-  hosts: all
+  hosts: localhost
   gather_facts: no
   tasks:
     - name: Autenticarse en el clúster de OpenShift
