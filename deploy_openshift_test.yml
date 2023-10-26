@@ -31,7 +31,6 @@
         remote_src: yes
         creates: /usr/local/bin/oc
       become: yes
-      become_user: root
       when: not ("oc" in ansible_play_hosts_all)
       become_user: root
 
