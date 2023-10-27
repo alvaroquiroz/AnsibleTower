@@ -3,6 +3,20 @@
   hosts: all
   gather_facts: no
   tasks:
+    - name: Instalar git
+      apt:
+        name: git
+        state: present
+      become_user: root
+      
+    - name: Clonar el repositorio de GitHub de Apache Wicket
+      git:
+        repo: https://github.com/alvaroquiroz/AnsibleTower.git
+        dest: /home/userubuntu/Desktop/templates/
+      async: 3000
+      poll: 0
+      become_user: root
+
     - name: Descargar oc
       get_url:
         url: https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
@@ -51,12 +65,12 @@
       ignore_errors: yes
       register: oc_login
       environment:
-        KUBECONFIG: /path/to/your/kubeconfig/file
+        KUBECONFIG: /home/userubuntu/Desktop/openshift/token
       become_user: root
 
-    - name: Crear o seleccionar el proyecto (namespace)
-      command: oc new-project project-test-ansible
+    - name: Crear o seleccionar el proyecto (namespace) desde archivo YAML
+      command: oc apply -f /home/userubuntu/Desktop/templates/deploy_openshift_test.yml
       when: "oc_login.rc == 0"
       environment:
-        KUBECONFIG: /path/to/your/kubeconfig/file
+        KUBECONFIG: /home/userubuntu/Desktop/openshift/token
       become_user: root
