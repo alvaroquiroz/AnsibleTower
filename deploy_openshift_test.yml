@@ -69,7 +69,7 @@
       become_user: root
 
     - name: Crear o seleccionar el proyecto (namespace) desde archivo YAML
-      command: oc apply -f /home/userubuntu/Desktop/templates/deploy_openshift_test.yml
+      command: oc apply -f /home/userubuntu/Desktop/templates/filedemo.yaml
       when: "oc_login.rc == 0"
       environment:
         KUBECONFIG: /home/userubuntu/Desktop/openshift/token
