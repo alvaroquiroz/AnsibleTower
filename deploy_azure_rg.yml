@@ -1,0 +1,12 @@
+---
+- name: Crear un Resource Group en Azure
+  hosts: localhost
+  tasks:
+    - name: Crear un Resource Group
+      azure.azcollection.azure_rm_resourcegroup:
+        name: Test-Ansible-Test     # Nombre de tu Resource Group
+        location: East US        # Ubicación de Azure
+      register: rg_result
+
+    - debug:
+        var: rg_result
