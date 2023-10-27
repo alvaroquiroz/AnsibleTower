@@ -74,3 +74,10 @@
       environment:
         KUBECONFIG: /home/userubuntu/Desktop/openshift/token
       become_user: root
+    
+    - name: Crear routes (namespace) desde archivo YAML
+      command: oc apply -f /home/userubuntu/Desktop/templates/filedemoroute.yaml
+      when: "oc_login.rc == 0"
+      environment:
+        KUBECONFIG: /home/userubuntu/Desktop/openshift/token
+      become_user: root

@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: route-frontend
+  namespace: boutique  # Cambia esto al espacio de nombres deseado
+spec:
+  host: route-frontend-boutique.apps.stracongroupdemo.local  # Cambia esto al host deseado
+  to:
+    kind: Service
+    name: frontend  # Cambia esto al servicio deseado
+    weight: 100
+  port:
+    targetPort: http
+  wildcardPolicy: None
